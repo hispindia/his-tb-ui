@@ -13,7 +13,7 @@
 	}
 	h2 {
 		display: block;
-		background-color: #7f7b72;
+		background-color: #C5FFFF;
 		padding: 5px 10px 5px 10px;
 		margin: 0;
 		color: white;

@@ -20,7 +20,7 @@ $color_text_link: #495998;
 $color_bkgd_general: #ffffff;
 $color_bkgd_control: #ebebeb;
 $color_bkgd_frame: #d1d0c9;
-$color_bkgd_gutter: #7f7b72;
+$color_bkgd_gutter: #afeeee;
 $color_bkgd_label: lighten($color_bkgd_frame, 15%);
 $color_bkgd_toolbar: #464640;
 $color_bkgd_highlight: #ffffdd;
@@ -263,6 +263,7 @@ html, body {
 		text-align: center;
 		font-weight: bold;
 		font-size: $size_text_header;
+		background-color:#d1e0ef;
 	}
 	.ke-panel-content {
 		@extend .ke-clearfix;
@@ -282,7 +283,7 @@ html, body {
 		background-color: $color_bkgd_gutter;
 	}
 	.ke-panel-heading {
-		color: white;
+		color: black;
 	}
 }
 
