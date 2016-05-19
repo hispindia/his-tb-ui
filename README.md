@@ -1,6 +1,6 @@
-# myanmaruiTB
-Myanmar UI module for TB system
-
+KenyaUI OpenMRS Module
+======================
+<a href="http://ci.kenyaemr.org/viewType.html?buildTypeId=bt2"><img src="http://ci.kenyaemr.org/app/rest/builds/buildType:kenyaui_mvn/statusIcon"/></a>
 
 Overview
 --------

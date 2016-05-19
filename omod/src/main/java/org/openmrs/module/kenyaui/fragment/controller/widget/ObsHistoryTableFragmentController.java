@@ -13,6 +13,9 @@
  */
 package org.openmrs.module.kenyaui.fragment.controller.widget;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -31,28 +34,68 @@ import org.openmrs.ui.framework.annotation.FragmentParam;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.util.OpenmrsUtil;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for the obsTableByDate fragment
  */
 public class ObsHistoryTableFragmentController {
 
-	public void controller(@FragmentParam("patient") Patient patient, @FragmentParam("concepts") List<Concept> concepts, FragmentModel model, @SpringBean KenyaUiUtils kenyaUi) {
+	public void controller(@FragmentParam("patient") Patient patient,
+			@FragmentParam("concepts") List<Concept> concepts,
+			@RequestParam(required = false, value = "startDate") String startDate,
+			@RequestParam(required = false, value = "endDate") String endDate,
+			FragmentModel model, @SpringBean KenyaUiUtils kenyaUi) {
 		if (concepts.size() < 1) {
 			throw new IllegalArgumentException("Concept list must be non-empty");
 		}
 
 		model.addAttribute("concepts", concepts);
 
-		TableData data = new TableData();
-		for (Concept concept : concepts) {
-			List<Obs> obss = Context.getObsService().getObservationsByPersonAndConcept(patient, concept);
-			for (Obs obs : obss) {
-				data.addObs(obs);
+		if(endDate!="" && startDate!=""){
+			Date sd=null,ed=null;
+			DateFormat formatter;
+			formatter = new SimpleDateFormat("dd-MMM-yyyy");
+			try {
+				sd = (Date) formatter.parse(startDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			try {
+				ed = (Date) formatter.parse(endDate);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			Date startOfDay = OpenmrsUtil.firstSecondOfDay(sd);
+			Date endOfDay = OpenmrsUtil.getLastMomentOfDay(ed);
+			
+			TableData data = new TableData();
+			for (Concept concept : concepts) {
+				List<Obs> obss = Context.getObsService()
+						.getObservationsByPersonAndConcept(patient, concept);
+				for (Obs obs : obss) {
+					if(obs.getEncounter().getVisit().getStartDatetime().after(startOfDay) && obs.getEncounter().getVisit().getStartDatetime().before(endOfDay)){
+						data.addObs(obs);
+					}
+				}
+			}
+			model.addAttribute("data", data);
+		}
+		else{
+			TableData data = new TableData();
+			for (Concept concept : concepts) {
+				List<Obs> obss = Context.getObsService()
+						.getObservationsByPersonAndConcept(patient, concept);
+				for (Obs obs : obss) {
+						data.addObs(obs);
+				}
+			}
+			model.addAttribute("data", data);
 		}
 
-		model.addAttribute("data", data);
 	}
 
 	/**
@@ -71,11 +114,14 @@ public class ObsHistoryTableFragmentController {
 
 		/**
 		 * Adds an obs to the table data
-		 * @param obs the obs
+		 * 
+		 * @param obs
+		 *            the obs
 		 */
 		public void addObs(Obs obs) {
 			Concept concept = obs.getConcept();
-			Date dateNoTime = OpenmrsUtil.firstSecondOfDay(obs.getObsDatetime());
+			Date dateNoTime = OpenmrsUtil
+					.firstSecondOfDay(obs.getObsDatetime());
 
 			Map<Concept, List<Obs>> allObsDate = get(dateNoTime);
 			if (allObsDate == null) {

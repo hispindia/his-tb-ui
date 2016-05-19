@@ -2,6 +2,7 @@
 	// Oddly resource ordering values are highest-first
 	ui.includeJavascript("kenyaui", "underscore.js", 101)
 	ui.includeJavascript("kenyaui", "jquery.js", 100)
+	ui.includeJavascript("kenyaui", "jquerymin.js", 100)
 	ui.includeJavascript("kenyaui", "select2.js", 99)
 	ui.includeJavascript("kenyaui", "jquery-ui.js", 98)
 	//ui.includeJavascript("kenyaui", "angular.js", 97)
@@ -18,6 +19,9 @@
 	
 	ui.includeJavascript("kenyaui", "jquery.thickbox.js",91)
 	
+	ui.includeJavascript("kenyaui", "jquery.custom.js",91)
+	ui.includeJavascript("kenyaui", "jquery.PrintArea.js",91)
+	
 	ui.includeCss("kenyaui", "select2.css", 100)
 	ui.includeCss("kenyaui", "jquery-ui.css", 99)
 	ui.includeCss("kenyaui", "toastmessage/css/jquery.toastmessage.css", 98)
@@ -26,6 +30,8 @@
 	ui.includeCss("kenyaui", "bootstrapmin.css",97)
 	
 	ui.includeCss("kenyaui", "thickbox.css",92)
+	
+	ui.includeCss("kenyaui", "PrintArea.css",91)
 %>
 <!DOCTYPE html>
 <html>
