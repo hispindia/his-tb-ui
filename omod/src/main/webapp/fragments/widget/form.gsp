@@ -122,7 +122,7 @@
 <% } %>
 
 <% if (config.submitLabel) { %>
-	<button type="submit">${ config.submitLabel }</button>
+	<button type="submit" onclick="javascript:return validateRegimenFields();">${ config.submitLabel }</button>
 <% } %>
 
 <% if (config.cancelLabel) { %>
